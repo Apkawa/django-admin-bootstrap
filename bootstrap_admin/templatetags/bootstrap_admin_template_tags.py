@@ -1,4 +1,4 @@
-from django.contrib.admin import site
+from django.contrib import admin
 from django.apps import apps
 from django.utils.text import capfirst
 from django.core.urlresolvers import reverse, NoReverseMatch
@@ -77,6 +77,7 @@ def display_sidebar_menu(has_filters=False):
                         takes_context=True)
 def render_menu_app_list(context):
     show_global_menu = sidebar_menu_setting()
+
     if not show_global_menu:
         return {'app_list': ''}
 
@@ -112,6 +113,8 @@ def render_menu_app_list(context):
     # Code adapted from django.contrib.admin.AdminSite
     app_dict = {}
     user = context.get('user')
+    site = context.get('ADMIN_SITE', admin.site)
+
     for model, model_admin in site._registry.items():
         app_label = model._meta.app_label
         has_module_perms = user.has_module_perms(app_label)
