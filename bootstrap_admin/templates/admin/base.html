@@ -121,6 +121,8 @@
                         <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
                       </li>
                     {% endif %}
+                    {% block user_menu %}
+                    {% endblock %}
                     <li>
                       <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
                     </li>
