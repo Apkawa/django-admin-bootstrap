@@ -74,7 +74,7 @@ def display_sidebar_menu(has_filters=False):
 
 
 @register.inclusion_tag('bootstrap_admin/sidebar_menu.html',
-                        takes_context=True)
+    takes_context=True)
 def render_menu_app_list(context):
     show_global_menu = sidebar_menu_setting()
 
@@ -87,12 +87,12 @@ def render_menu_app_list(context):
         dependency_str = 'settings.TEMPLATE_CONTEXT_PROCESSORS'
     else:
         dependencie = 'django.template.context_processors.request'
-        implemented_engines = getattr(settings, 'BOOTSTRAP_ADMIN_ENGINES', 
+        implemented_engines = getattr(settings, 'BOOTSTRAP_ADMIN_ENGINES',
             ['django.template.backends.django.DjangoTemplates'])
         dependency_str = "the 'context_processors' 'OPTION' of one of the " + \
-            "following engines: %s" % implemented_engines
-        filtered_engines = [engine for engine in settings.TEMPLATES 
-            if engine['BACKEND'] in implemented_engines]
+                         "following engines: %s" % implemented_engines
+        filtered_engines = [engine for engine in settings.TEMPLATES
+                            if engine['BACKEND'] in implemented_engines]
         if len(filtered_engines) == 0:
             raise ImproperlyConfigured(
                 "bootstrap_admin: No compatible template engine found" +
@@ -100,7 +100,7 @@ def render_menu_app_list(context):
                 % implemented_engines
             )
         processors = reduce(lambda x, y: x.extend(y), [
-            engine.get('OPTIONS', {}).get('context_processors', []) 
+            engine.get('OPTIONS', {}).get('context_processors', [])
             for engine in filtered_engines])
 
     if dependencie not in processors:
@@ -169,7 +169,7 @@ def render_menu_app_list(context):
     # Sort the models alphabetically within each sapp.
     for app in app_list:
         app['models'].sort(key=lambda x: x['name'])
-    return {'app_list': app_list, 'current_url': context.get('request').path}
+    return {'app_list': app_list, 'current_url': context.get('request').path, 'request': context['request']}
 
 
 @register.filter()
